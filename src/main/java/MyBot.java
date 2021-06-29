@@ -4,12 +4,10 @@ import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.methods.send.SendPhoto;
 import org.telegram.telegrambots.meta.api.objects.InputFile;
 import org.telegram.telegrambots.meta.api.objects.Update;
-import org.telegram.telegrambots.meta.api.objects.inlinequery.ChosenInlineQuery;
 import org.telegram.telegrambots.meta.api.objects.inlinequery.InlineQuery;
 import org.telegram.telegrambots.meta.api.objects.inlinequery.result.InlineQueryResult;
 import org.telegram.telegrambots.meta.api.objects.inlinequery.result.InlineQueryResultPhoto;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
-import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -62,21 +60,25 @@ public class MyBot extends TelegramLongPollingBot {
         if(update.hasInlineQuery()){
             Date date = new Date();
             System.out.printf("[%tF %tT]%n",date,date);
-            Song s = Main.roll(Main.sl);
+
             InlineQuery inlineQuery = update.getInlineQuery();
             AnswerInlineQuery answerInlineQuery = new AnswerInlineQuery();
-            InlineQueryResultPhoto result = new InlineQueryResultPhoto("1",s.getCover());
-            result.setThumbUrl(s.getCover());
-            result.setCaption(s.toString());
             List<InlineQueryResult> results = new ArrayList<InlineQueryResult>();
-            results.add(result);
+            for(int i=1;i<=5;i++){
+                Song s = Main.roll(Main.sl);
+                InlineQueryResultPhoto result = new InlineQueryResultPhoto("id"+i, s.getCover());
+                result.setCaption(s.toString());
+                result.setTitle(s.getTitle());
+                result.setDescription(s.getTitle());
+                result.setThumbUrl(s.getCover());
+                results.add(result);
+            }
             answerInlineQuery.setResults(results);
             answerInlineQuery.setCacheTime(0);
             answerInlineQuery.setInlineQueryId(inlineQuery.getId());
 
             try {
                 execute(answerInlineQuery);
-                System.out.println(s.getTitle());
             } catch (TelegramApiException e) {
                 e.printStackTrace();
             }

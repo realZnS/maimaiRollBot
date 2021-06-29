@@ -50,6 +50,6 @@ public class Main {
         return songList;
     }
     public static Song roll(SongList songList){
-        return songList.songList.get((int) (System.currentTimeMillis()*123%songList.songList.size()-1));
+        return songList.songList.get((int) (Math.random()*10e6)%songList.songList.size()-1);
     }
 }
