@@ -19,11 +19,11 @@ public class MyBot extends TelegramLongPollingBot {
 
 
     public String getBotUsername() {
-        return "ZnS' maimaiRollBot";
+        return "ZnSTestBot";
     }
 
     public String getBotToken() {
-        return "1603880290:AAH1FpEWL9uCi0UAytTNd0_DykYDXvzyqx8";
+        return "1626709682:AAGfkeykc0q7wMwIdNg4hmVWY1xwdbWdZMQ";
     }
 
     public void onUpdateReceived(Update update) {
@@ -31,7 +31,7 @@ public class MyBot extends TelegramLongPollingBot {
         if (update.hasMessage() && update.getMessage().hasText()) {
             Date date = new Date();
             System.out.printf("[%tF %tT]%n",date,date);
-            if(update.getMessage().getText().equals("/roll")){
+            if(update.getMessage().getText().matches("^\\/roll.*")){
                 System.out.println("got command \"/roll\" from id "+update.getMessage().getChatId());
                 SendPhoto message = new SendPhoto();
                 message.setChatId(update.getMessage().getChatId().toString());
