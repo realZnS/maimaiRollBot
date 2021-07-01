@@ -10,11 +10,7 @@ public class SongList {
         this.songList=songList;
     }
 
-    @Override
-    public String toString() {
-        return "SongList{" +
-                "data=" + data +
-                ", songList=" + songList +
-                '}';
+    public SongList() {
+        super();
     }
 }
