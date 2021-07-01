@@ -9,4 +9,8 @@ public class SongList {
         this.data=data;
         this.songList=songList;
     }
+
+    public SongList() {
+        super();
+    }
 }
