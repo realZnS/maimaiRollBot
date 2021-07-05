@@ -8,21 +8,22 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Main {
-    public static SongList fullSongList = Main.getSongList(Main.getJson(new File("maimaidxCN.json")));
+    public static ArrayList<Song> fullSongList = Main.getSongList(Main.getJson(new File("maimaidxCN.json")));
     public static HashMap<String, ArrayList<Song>> slByLevel = new HashMap<String, ArrayList<Song>>();
+
     public static void main(String[] args) {
         File config = new File("config.json");
         MyBot bot;
-        if(!config.exists()){
+        if (!config.exists()) {
             System.out.println("请先填写config.json");
             FileWriter writer = null;
-            try{
+            try {
                 config.createNewFile();
                 writer = new FileWriter(config);
                 writer.write("{\"botUsername\": null, \"botToken\": null}");
-            }catch (IOException e){
+            } catch (IOException e) {
                 e.printStackTrace();
-            }finally {
+            } finally {
                 try {
                     if (writer != null)
                         writer.close();
@@ -31,24 +32,23 @@ public class Main {
                 }
             }
             return;
-        }
-        else {
+        } else {
             Gson gson = new Gson();
-            bot = gson.fromJson(Main.getJson(config),MyBot.class);
+            bot = gson.fromJson(Main.getJson(config), MyBot.class);
             System.out.println(bot.toString());
         }
         Main.init();
-        try{
+        try {
             TelegramBotsApi botsApi = new TelegramBotsApi(DefaultBotSession.class);
             botsApi.registerBot(bot);
-        }catch (TelegramApiException e){
+        } catch (TelegramApiException e) {
             e.printStackTrace();
         }
     }
 
 
     //读取文件
-    public static String getJson(File jsonFile){
+    public static String getJson(File jsonFile) {
         StringBuffer content = new StringBuffer();
         BufferedReader reader = null;
         try {
@@ -70,24 +70,30 @@ public class Main {
         return content.toString();
     }
 
+
+    class Jsonfile{
+        int data;
+        ArrayList<Song> songList;
+    }
     //从字符串创建曲目列表
-    public static SongList getSongList(String s){
-        Gson gson= new Gson();
-        SongList songList = gson.fromJson(s,SongList.class);
+    public static ArrayList<Song> getSongList(String s) {
+        Gson gson = new Gson();
+        Jsonfile j = gson.fromJson(s,Jsonfile.class);
+        ArrayList<Song> songList = j.songList;
         return songList;
     }
-    public static Song roll(ArrayList<Song> songList){
-        return songList.get((int) (Math.random()*114514)%songList.size());
+
+    public static Song roll(ArrayList<Song> songList) {
+        return songList.get((int) (Math.random() * 114514) % songList.size());
     }
 
 
-
-    private static void init(){
+    private static void init() {
         System.out.println("Starting...");
-        for (Song song: fullSongList.songList) {
-            for (String l:song.level.values()) {//创建等级歌单
-                if(!slByLevel.containsKey(l)){
-                    slByLevel.put(l,new ArrayList<Song>());
+        for (Song song : fullSongList) {
+            for (String l : song.level.values()) {//创建等级歌单
+                if (!slByLevel.containsKey(l)) {
+                    slByLevel.put(l, new ArrayList<Song>());
                 }
                 slByLevel.get(l).add(song);
             }
@@ -96,7 +102,8 @@ public class Main {
 //        System.out.println(slByLevel.toString());
         System.out.println("Started.");
     }
-    public static Song rollByLevel(String level){
+
+    public static Song rollByLevel(String level) {
         return roll(slByLevel.get(level));
     }
 }
