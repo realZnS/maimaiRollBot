@@ -12,7 +12,6 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.regex.Pattern;
 
 public class MyBot extends TelegramLongPollingBot {
 
@@ -60,11 +59,11 @@ public class MyBot extends TelegramLongPollingBot {
                         song = Main.rollByLevel(l);
                     }
                     else {
-                        song = Main.fullSongList.songList.get(0);
+                        song = Main.fullSongList.get(0);
                     }
                 }
                 else {
-                    song = Main.roll(Main.fullSongList.songList);
+                    song = Main.roll(Main.fullSongList);
                 }
                 System.out.println("returned \""+song.getTitle()+'"');
                 message.setCaption(song.toString());
@@ -108,7 +107,7 @@ public class MyBot extends TelegramLongPollingBot {
             AnswerInlineQuery answerInlineQuery = new AnswerInlineQuery();
             List<InlineQueryResult> results = new ArrayList<InlineQueryResult>();
             for(int i=1;i<=5;i++){
-                Song s = Main.roll(Main.fullSongList.songList);
+                Song s = Main.roll(Main.fullSongList);
                 if(Main.slByLevel.containsKey(query)){
                     s = Main.rollByLevel(query);
                 }
