@@ -95,7 +95,6 @@ public class Main {
         return songList.get((int) (Math.random() * 114514) % songList.size());
     }
 
-
     private static void init() {
         //System.out.println("Starting...");
         log.info("Starting...");
