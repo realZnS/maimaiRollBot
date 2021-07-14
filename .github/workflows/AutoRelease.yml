@@ -52,6 +52,6 @@ jobs:
           # optional
           tag_name: v${{steps.version.outputs.value}}
           # Newline-delimited list of path globs for asset files to upload
-          files: ~/maimaiRollBot/target/maimaiRollBot-*-SNAPSHOT-jar-with-dependencies.jar
+          files: ~/maimaiRollBot/target/ #maimaiRollBot-*-SNAPSHOT-jar-with-dependencies.jar
         env:
           GITHUB_TOKEN: ${{ secrets.CI_TOKEN }}
