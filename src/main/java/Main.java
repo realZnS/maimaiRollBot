@@ -1,4 +1,5 @@
 import com.google.gson.Gson;
+import lombok.extern.slf4j.Slf4j;
 import org.telegram.telegrambots.meta.TelegramBotsApi;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import org.telegram.telegrambots.updatesreceivers.DefaultBotSession;
@@ -7,6 +8,7 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+@Slf4j
 public class Main {
     public static ArrayList<Song> fullSongList = Main.getSongList(Main.getJson(new File("maimaidxCN.json")));
     public static HashMap<String, ArrayList<Song>> slByLevel = new HashMap<String, ArrayList<Song>>();
@@ -22,27 +24,31 @@ public class Main {
                 writer = new FileWriter(config);
                 writer.write("{\"botUsername\": null, \"botToken\": null}");
             } catch (IOException e) {
-                e.printStackTrace();
+                //e.printStackTrace();
+                log.warn("Unexpected error in ",e);
             } finally {
                 try {
                     if (writer != null)
                         writer.close();
                 } catch (IOException e) {
-                    e.printStackTrace();
+                    //e.printStackTrace();
+                    log.warn("Unexpected error in ",e);
                 }
             }
             return;
         } else {
             Gson gson = new Gson();
             bot = gson.fromJson(Main.getJson(config), MyBot.class);
-            System.out.println(bot.toString());
+            log.info(bot.toString());
+            //System.out.println(bot.toString());
         }
         Main.init();
         try {
             TelegramBotsApi botsApi = new TelegramBotsApi(DefaultBotSession.class);
             botsApi.registerBot(bot);
         } catch (TelegramApiException e) {
-            e.printStackTrace();
+            //e.printStackTrace();
+            log.warn("Unexpected error in ",e);
         }
     }
 
@@ -58,13 +64,15 @@ public class Main {
                 content.append(line);
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            //e.printStackTrace();
+            log.warn("Unexpected error in ",e);
         } finally {
             try {
                 if (reader != null)
                     reader.close();
             } catch (IOException e) {
-                e.printStackTrace();
+                //e.printStackTrace();
+                log.warn("Unexpected error in ",e);
             }
         }
         return content.toString();
@@ -89,9 +97,10 @@ public class Main {
 
 
     private static void init() {
-        System.out.println("Starting...");
+        //System.out.println("Starting...");
+        log.info("Starting...");
         for (Song song : fullSongList) {
-            for (String l : song.level.values()) {//创建等级歌单
+            for (String l : song.getLevel().values()) {//创建等级歌单
                 if (!slByLevel.containsKey(l)) {
                     slByLevel.put(l, new ArrayList<Song>());
                 }
@@ -100,7 +109,8 @@ public class Main {
         }
 //        for(String s: slByLevel.keySet()){System.out.println(s);}
 //        System.out.println(slByLevel.toString());
-        System.out.println("Started.");
+        //System.out.println("Started.");
+        log.info("Started.");
     }
 
     public static Song rollByLevel(String level) {

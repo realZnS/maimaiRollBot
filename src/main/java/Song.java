@@ -1,9 +1,12 @@
+import lombok.Data;
+
 import java.util.Map;
 
+@Data
 public class Song implements Comparable {
-    String title,type,category,cover,artist,version;
-    int bpm,sort;
-    Map<String,String> level;
+    private String title,type,category,cover,artist,version;
+    private int bpm,sort;
+    private Map<String,String> level;
 
     @Override
     public String toString() {
@@ -20,10 +23,6 @@ public class Song implements Comparable {
 
     public String getCover(){
         return "https://github.com/realzns/maimaidx-roll/blob/master/static/img/cover/" + cover + ".jpg?raw=true'";
-    }
-
-    public String getTitle() {
-        return title;
     }
 
     public int compareTo(Object o) {
