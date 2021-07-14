@@ -37,10 +37,13 @@ jobs:
       - name: GH Release
         # You may pin to the exact commit or the version.
         # uses: softprops/action-gh-release@b7e450da2a4b4cb4bfbae528f788167786cfcedf
-        uses: softprops/action-gh-release@v0.1.5
+        uses: softprops/action-gh-release@v1
+        if: startsWith(github.ref, 'refs/tags/')
         with:
           # Note-worthy description of changes in release
           body: Released by GitHub CI
           # optional
           # Newline-delimited list of path globs for asset files to upload
           files: ~/maimaiRollBot/target/maimaiRollBot-*-SNAPSHOT-jar-with-dependencies.jar
+        env:
+          GITHUB_TOKEN: ${{ secrets.CI_TOKEN }}
