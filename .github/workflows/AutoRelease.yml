@@ -34,6 +34,13 @@ jobs:
           git clone https://github.com/realZnS/maimaiRollBot.git
           cd maimaiRollBot
           mvn package
+      - name: getTag
+        id: version
+        uses: ashley-taylor/read-json-property-action@v1.0
+        with: 
+          path: ~/maimaiRollBot/package.json
+          property: version
+          
       - name: GH Release
         # You may pin to the exact commit or the version.
         # uses: softprops/action-gh-release@b7e450da2a4b4cb4bfbae528f788167786cfcedf
@@ -43,6 +50,7 @@ jobs:
           # Note-worthy description of changes in release
           body: Released by GitHub CI
           # optional
+          tag_name: v${{steps.version.outputs.value}}
           # Newline-delimited list of path globs for asset files to upload
           files: ~/maimaiRollBot/target/maimaiRollBot-*-SNAPSHOT-jar-with-dependencies.jar
         env:
