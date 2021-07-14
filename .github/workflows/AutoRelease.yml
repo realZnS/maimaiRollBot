@@ -50,7 +50,7 @@ jobs:
           # Note-worthy description of changes in release
           body: Released by GitHub CI
           # optional
-          tag_name: auto #${{steps.version.outputs.value}}
+          tag_name: "auto" #${{steps.version.outputs.value}}
           # Newline-delimited list of path globs for asset files to upload
           files: ~/maimaiRollBot/target/maimaiRollBot-${{steps.version.outputs.value}}-jar-with-dependencies.jar
         env:
