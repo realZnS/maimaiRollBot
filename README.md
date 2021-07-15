@@ -15,9 +15,9 @@ A telegram bot to help you choose song randomly while playing maimaiDX2021.
 ## How to use
 Now available on telegram [@maimaiRollBot](https://t.me/maimaiRollBot)
 
-Just send `\roll` to roll a song.
+Just send `/roll` to roll a song.
 
-This command can also go with a param, `\roll 15` ,for example.
+This command can also go with a param, `/roll 15` ,for example.
 #### Inline mode
 Just type `@maimaiRollBot ` on any chat input and choose a song to send.
 ## Deploy
